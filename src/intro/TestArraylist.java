@@ -10,5 +10,7 @@ package intro;
  * @author Aula
  */
 public class TestArraylist {
-    
+    public static void main(String[] args) {
+        
+    }
 }
