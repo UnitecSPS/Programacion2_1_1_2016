@@ -20,4 +20,20 @@ public class Recursiones {
         }
         System.out.println(n);
     }
+    
+    static int sumarHastaNUp(int n){
+        if( n > 1)
+            return sumarHastaNUp(n-1)+n;
+        return n;
+    }
+    
+    static int sumarHastaNDown(int n){
+        return sumarHastaNDown(n,0);
+    }
+    
+    private static int sumarHastaNDown(int n, int suma){
+        if(n>=1)
+            return sumarHastaNDown(n-1, suma+n);
+        return suma;
+    }
 }
