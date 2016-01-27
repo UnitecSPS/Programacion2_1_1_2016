@@ -36,4 +36,30 @@ public class Recursiones {
             return sumarHastaNDown(n-1, suma+n);
         return suma;
     }
+    
+    static int powUp(int b, int e){
+        if(e > 0)
+            return powUp(b,e-1) * b;
+        return 1;
+    }
+    
+    static int powDown(int b,int e,int a){ 
+        if(e>0)
+            return powDown(b,e-1,b*a);
+        return a;
+    }
+    
+    static int mcd(int n1, int n2) {
+        return mcd(n1,n2,2);
+    }
+    
+    //En comentario estaria lo del down
+    private static int mcd(int n1, int n2, int div/*,int ac*/) {
+        if(n1 >= div && n2 >= div){
+            if(n1 % div == 0 && n2 % div == 0)
+                return mcd(n1/div, n2/div,div/*,ac*d*/) * div;
+            return mcd(n1, n2, div + 1/*,ac*/);
+        }
+        return 1/*ac*/;
+    }
 }
