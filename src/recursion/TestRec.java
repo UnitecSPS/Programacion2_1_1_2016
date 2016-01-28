@@ -20,6 +20,8 @@ public class TestRec {
             System.out.println("2- Sumar hasta N");
             System.out.println("3- Potencia");
             System.out.println("4- Maximo Comun Divisor");
+            System.out.println("5- Factorial");
+            System.out.println("6- Piramide");
             System.out.println("");
             System.out.println("Escoja opcion: ");
             
@@ -54,7 +56,14 @@ public class TestRec {
                     res = Recursiones.mcd(n1,n2);
                     System.out.println("MCD: "+res);
                     break;
-                    
+                case 5:
+                    System.out.println("N: ");
+                    res = Recursiones.factorial(lea.nextInt());
+                    System.out.println("Factorial: "+res);
+                    break;
+                case 6:
+                    System.out.println("Hasta que fila?: ");
+                    Recursiones.piramide(lea.nextInt());
             }
             
         }while(true);

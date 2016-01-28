@@ -62,4 +62,50 @@ public class Recursiones {
         }
         return 1/*ac*/;
     }
+    
+    static int factorial(int n){
+        if(n>1)
+            return factorial(n-1)*n;
+        return 1;
+    }
+    
+    static void piramide(int filas){
+        piramide(filas,1,1);
+    }
+    
+    private static void piramide(int filas, int f, int c){
+        if(f <= filas){
+            if(c <= f){
+                System.out.print("*");
+                piramide(filas,f,c+1);
+            }
+            else{
+                System.out.println("");
+                piramide(filas,f+1,1);
+            }
+        }
+    }
+    
+    static int fibonnaci(int n){
+        if(n > 1)
+            return fibonnaci(n-1)+fibonnaci(n-2);
+        return n;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
