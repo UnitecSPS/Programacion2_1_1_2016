@@ -29,5 +29,19 @@ public class CuentaAhorro extends CuentaBancaria {
         return ultimaModif;
     }
     
+    @Override
+    public String toString(){
+        return super.toString() + " status="+status;
+    }
+    
+     public boolean retirar(double m){
+         Calendar hoy = Calendar.getInstance();
+         hoy.add(Calendar.MONTH, -6);
+         
+         if(hoy.before(ultimaModif)){
+             return super.retirar(m);
+         }
+         return false;
+     }
     
 }

@@ -37,4 +37,11 @@ public class CuentaBancaria {
     public void depositar(double m){
         saldo += m;
     }
+
+    @Override
+    public String toString() {
+        return "{" + "numero=" + numero + ", cliente=" + cliente + ", saldo=" + saldo + ", tasa=" + tasa + '}';
+    }
+    
+    
 }
