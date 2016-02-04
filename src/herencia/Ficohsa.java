@@ -22,7 +22,6 @@ public class Ficohsa {
         
         for(CuentaBancaria cb : cuentas){
             System.out.println(""+cb);
-            //cb.retirar(m)
         }
         
         

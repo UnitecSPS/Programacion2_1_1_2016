@@ -20,5 +20,18 @@ public class Banco {
             System.out.println("Si soy CuentaBancaria!");
         
         System.out.println(ca.toString());
+        
+        //ca.retirar(m)
+        
+        //downcasting indirecto
+        
+        CuentaAhorro cah = (CuentaAhorro)ca;
+        cah.setCliente("Celeste");
+        System.out.println("status: " + cah.status());
+        System.out.println("ca: " + ca);
+        
+        //downcasting directo
+        boolean s = ((CuentaAhorro)ca).status();
+        System.out.println(s);
     }
 }

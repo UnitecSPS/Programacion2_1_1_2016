@@ -25,6 +25,31 @@ public class CuentaBancaria {
         tasa = t;
         creacion = Calendar.getInstance();
     }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public double getTasa() {
+        return tasa;
+    }
+
+    public Calendar getCreacion() {
+        return creacion;
+    }
+    
     
     public boolean retirar(double m){
         if(saldo > m){
