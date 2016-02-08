@@ -30,4 +30,11 @@ public class BarcoPesquero extends Barco {
     public static void main(String[] args) {
         Barco b = new BarcoPesquero("Pancho");
     }
+
+    @Override
+    public double vaciarCobrar() {
+        double pagar = 100 * contadorPescados;
+        contadorPescados=0;
+        return pagar;
+    }
 }
