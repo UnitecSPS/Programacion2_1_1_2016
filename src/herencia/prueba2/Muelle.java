@@ -13,8 +13,41 @@ package herencia.prueba2;
 //Creado despues de la prueba 2
 public class Muelle {
     public static void main(String[] args) {
-        //Barco barco = new Barco("Titanic");
+        
         Barco barco = Barco.getInstance("Titanic", "pasajero");
         
+        //funciones on-demand
+        Barco b = new Barco("Poseidon"){
+            
+            void test(){
+                System.out.println("Solo de prueba");
+            }
+            
+            @Override
+            public void agregar(){
+                test();
+            }
+            
+            @Override
+            public double vaciarCobrar(){
+                return 0;
+            }
+        };
+        
+        Barco c = new Barco("Carpatia") {
+
+            @Override
+            public void agregar() {
+                System.out.println("Rescatando sobrevivientes del Titanic");
+            }
+
+            @Override
+            public double vaciarCobrar() {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        
+        b.agregar();
+        c.agregar();
     }
 }
