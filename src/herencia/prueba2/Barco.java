@@ -31,7 +31,7 @@ public abstract class Barco {
     public abstract void agregar();
     public abstract double vaciarCobrar();
     
-    public void print(){
+    public final void print(){
         System.out.println(nombre);
     }
 }

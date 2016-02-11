@@ -11,8 +11,9 @@ import java.util.Calendar;
  *
  * @author Aula
  */
-public class CuentaAhorro extends CuentaBancaria {
+public final class CuentaAhorro extends CuentaBancaria {
     private Calendar ultimaModif;
+    public static final double TASA_AHORRO = 0.03;
     
     public CuentaAhorro(int n, String c){
         super(n,c,0.03);
@@ -29,6 +30,7 @@ public class CuentaAhorro extends CuentaBancaria {
     }
     
     public boolean status(){
+        //TASA_AHORRO = 0.05;
         Calendar hoy = Calendar.getInstance();
         hoy.add(Calendar.MONTH, -6);
         return hoy.before(ultimaModif);
