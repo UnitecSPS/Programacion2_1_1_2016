@@ -5,6 +5,7 @@
  */
 package errores;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -26,8 +27,19 @@ public class MundoFragil {
             b();
             System.out.println("Finalizando Try");
         }
+        catch(InputMismatchException e){
+            System.out.println("Por favor ingrese un numero.");
+        }
+        catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Por favor ingrese una posicion valida.");
+        }
+        catch(ArithmeticException e){
+            System.out.println("Por favor no divida entre cero");
+        }
         catch(Exception e){
-            System.out.println("Error: " + e);
+            String clase = e.getStackTrace()[0].getClassName();
+            int line = e.getStackTrace()[0].getLineNumber();
+            System.out.println("Error: "+ e+" en "+clase+":"+line);
         }
         
         System.out.println("Finalizando A");
@@ -36,7 +48,7 @@ public class MundoFragil {
     private static void b() {
         System.out.println("Iniciando B");
         //codigos fragiles--------------------
-        Scanner lea = new Scanner(System.in);
+        Scanner lea = null;//new Scanner(System.in);
         int arr[] = { 2,0,1,6 };
         int pos = lea.nextInt();
         double div = 10 / arr[pos];
