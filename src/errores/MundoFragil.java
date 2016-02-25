@@ -16,6 +16,7 @@ public class MundoFragil {
     public static void main(String[] args) {
         System.out.println("Iniciando Main");
         a();
+        test();
         System.out.println("Finalizando Main");
     }
 
@@ -35,11 +36,15 @@ public class MundoFragil {
         }
         catch(ArithmeticException e){
             System.out.println("Por favor no divida entre cero");
+            //throw e;
         }
         catch(Exception e){
             String clase = e.getStackTrace()[0].getClassName();
             int line = e.getStackTrace()[0].getLineNumber();
             System.out.println("Error: "+ e+" en "+clase+":"+line);
+        }
+        finally{
+            close();
         }
         
         System.out.println("Finalizando A");
@@ -48,12 +53,21 @@ public class MundoFragil {
     private static void b() {
         System.out.println("Iniciando B");
         //codigos fragiles--------------------
-        Scanner lea = null;//new Scanner(System.in);
+        Scanner lea = new Scanner(System.in);
         int arr[] = { 2,0,1,6 };
         int pos = lea.nextInt();
         double div = 10 / arr[pos];
         System.out.println("Division 10/"+arr[pos]+": "+ div );
         //-----------------------------------
         System.out.println("Finalizando B");
+    }
+
+    private static void close() {
+        System.out.println("Libera Memoria");
+        System.out.println("Unset registros");
+    }
+
+    private static void test() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

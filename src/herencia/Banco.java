@@ -5,6 +5,9 @@
  */
 package herencia;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Aula
@@ -33,5 +36,15 @@ public class Banco {
         //downcasting directo
         boolean s = ((CuentaAhorro)ca).status();
         System.out.println(s);
+        
+        
+
+        try {
+            cah.depositar(-5);
+        } catch (InvalidAmountException ex) {
+            
+        }
+
+
     }
 }

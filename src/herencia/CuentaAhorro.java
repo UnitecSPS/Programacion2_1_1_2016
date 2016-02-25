@@ -45,7 +45,7 @@ public final class CuentaAhorro extends CuentaBancaria {
      }
      
     @Override
-    public void depositar(double m){
+    public void depositar(double m)throws InvalidAmountException{
         if(!status())
             m -= m*0.1;
         super.depositar(m);

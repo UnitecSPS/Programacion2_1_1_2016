@@ -19,7 +19,7 @@ public class Ficohsa {
         cuentas.add(new CuentaBancaria(1, "Gino", 0.2));
         cuentas.add(new CuentaAhorro(2, "Rene"));
         cuentas.add(new CuentaCheques(3, "Samuel"));
-        
+
         for(CuentaBancaria cb : cuentas){
             System.out.println(""+cb);
         }

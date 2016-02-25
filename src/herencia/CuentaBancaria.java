@@ -59,13 +59,15 @@ public class CuentaBancaria {
         return false;
     }
     
-    public void depositar(double m){
+    public void depositar(double m)throws InvalidAmountException {
+        if(m < 0)
+            throw new InvalidAmountException(m);
         saldo += m;
     }
 
     @Override
     public String toString() {
-        return "{" + "numero=" + numero + ", cliente=" + cliente + ", saldo=" + saldo + ", tasa=" + tasa + '}';
+        return "{numero=" + numero + ", cliente=" + cliente + ", saldo=" + saldo + ", tasa=" + tasa + '}';
     }
     
     
