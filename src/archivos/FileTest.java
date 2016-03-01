@@ -24,7 +24,7 @@ public class FileTest {
             System.out.println("Nombre: "+f.getName());
             System.out.println("Path: "+f.getPath());
             System.out.println("Absoluta: "+f.getAbsolutePath());
-            System.out.println("Parent: "+f.getParent());
+            System.out.println("Parent: "+f.getAbsoluteFile().getParentFile().getName());
             System.out.println("bytes: "+f.length());
             
             if(f.isFile())
@@ -46,10 +46,10 @@ public class FileTest {
         else{
             System.out.println("No existe!");
             System.out.println("CREARLO? Ingrese DIR o FILE: ");
-            
+           
             switch(lea.next().toUpperCase()){
                 case "DIR":
-                    if( f.mkdir() )
+                    if( f.mkdirs() )
                         System.out.println("Se creo el directorio");
                     break;
                 case "FILE":
