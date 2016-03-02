@@ -93,7 +93,17 @@ public class DirectoryActions {
     }
 
     private static void tree() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        tree(dir,"-");
+    }
+    
+    private static void tree(File dir, String tab) {
+        if(dir.isDirectory()){
+            System.out.println(tab+"|"+dir.toString());
+            for(File child : dir.listFiles()){
+                if(!child.isHidden())
+                    tree(child, tab+"--");
+            }
+        }
     }
 
     private static void length() {
@@ -107,4 +117,6 @@ public class DirectoryActions {
     private static void delete() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
 }
