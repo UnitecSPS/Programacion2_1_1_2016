@@ -23,18 +23,17 @@ public class EscribirEnTxt {
             System.out.println("Appendo si o no?: ");
             String app = lea.next().toLowerCase();
             
-            try{
-                FileWriter fw = new FileWriter(path, app.equals("si"));
-                
+            //try-catch with Resources
+            try(FileWriter fw = new FileWriter(path, app.equals("si"))){
                 String data;
                 do{
                     data = lea.nextLine();
-                    if(!data.equals(":wq"))
+                    if(!data.equals(":wq")){
                         fw.write(data+"\r\n");
+                        //fw.flush();
+                    }
                         
                 }while(!data.equals(":wq"));
-                
-                fw.close();
             }
             catch(IOException e){
                 System.out.println(e);

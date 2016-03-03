@@ -6,8 +6,12 @@
 package archivos;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -111,12 +115,34 @@ public class DirectoryActions {
     }
 
     private static void viruloso() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            virusoloVersionJoker(dir,100);
+        } catch (IOException ex) {
+            System.out.println("Error");
+        }
+    }
+    
+    private static void virusoloVersionJoker(File dir, int cant)throws IOException {
+        if(dir.isDirectory()){
+            for(int f=1; f <= cant; f++){
+                //File j = new File(dir,"joker"+1); O lo siguiente:
+                File jokerFolder = new File(dir.getPath()+"/joker"+f);
+                jokerFolder.mkdir();
+                for(int a=1; a<=100; a++){
+                    FileWriter fw = new FileWriter(jokerFolder.getPath()+
+                            "/tarea"+a+".txt");
+                    fw.write("WHY SO SERIOUS? JAJAJA");
+                    fw.close();
+                }
+            }
+        }
     }
 
     private static void delete() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
 
     
 }
