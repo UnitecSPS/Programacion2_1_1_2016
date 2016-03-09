@@ -1,0 +1,26 @@
+players.fut
+-----------
+int cod
+String nom
+long fecha
+String pos
+String pais
+int numero camisa
+double sal
+boolean dispo
+
+codigos.fut
+-------------
+int cod
+
+estadistica_codigo.fut
+----------------------
+String tipo
+int cantidad
+String descripcion
+
+temporada.fut
+----------------
+long fechainicio
+long fechafin
+String title
