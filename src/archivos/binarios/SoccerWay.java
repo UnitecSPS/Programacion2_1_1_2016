@@ -4,6 +4,7 @@ package archivos.binarios;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -164,7 +165,21 @@ public class SoccerWay {
      * @param newSalary Nuevo Salario
      * @return TRUE si se pudo guardar o FALSE si no.
      */
-    public boolean updateSalary(int cod, double newSalary){
+    public boolean updateSalary(int cod, double newSalary)throws IOException{
+        if(search(cod)){
+            rPlayers.readUTF();//nombre
+            rPlayers.readLong();//fecha
+            rPlayers.readUTF();//posicion
+            rPlayers.readUTF();//pais
+            rPlayers.readInt();//camisa
+            double sal = rPlayers.readDouble();//salario
+            if(sal < newSalary){
+                //me regreso para actualizar
+                rPlayers.seek(rPlayers.getFilePointer()-8);
+                rPlayers.writeDouble(newSalary);
+                return true;
+            }
+        }
         return false;
     }
     
@@ -183,8 +198,22 @@ public class SoccerWay {
      * @param cantidad La cantidad lograda de dicha estadistica
      * @param desc La descripcion de la estadistica.
      */
-    public void addNewStadistic(int cod, TipoAccion action, int cantidad, String desc){
-        
+    public void addNewStadistic(int cod, TipoAccion action, int cantidad, String desc) throws IOException{
+        if(search(cod)){
+            RandomAccessFile rStats = new RandomAccessFile(ROOT+"/estadistica_"+cod+".fut", "rw");
+            rStats.seek(rStats.length());
+            
+            //fecha
+            rStats.writeLong(Calendar.getInstance().getTimeInMillis());
+            //tipo
+            rStats.writeUTF(action.name());
+            //cantidad
+            rStats.writeInt(cantidad);
+            //desc
+            rStats.writeUTF(desc);
+            
+            rStats.close();
+        }
     }
     
     /**
@@ -201,8 +230,27 @@ public class SoccerWay {
      * 
      * @param title El titulo de la Season.
      */
-    public void addNewSeason(String title){
+    public void addNewSeason(String title)throws IOException{
+        RandomAccessFile rTemp = new RandomAccessFile(ROOT+"/temporada.fut", "rw");
+        //iniciarlo con la de hoy
+        Calendar start = Calendar.getInstance();
         
+        while(rTemp.getFilePointer() < rTemp.length()){
+            rTemp.readLong();//fecha inicio
+            start.setTimeInMillis(rTemp.readLong());//fecha fin
+            //sumarle 1 dia
+            start.add(Calendar.DATE, 1);
+            rTemp.readUTF();
+        }
+        
+        //escribimos
+        rTemp.writeLong(start.getTimeInMillis());//fecha de inicio
+        //fecha fin
+        start.add(Calendar.YEAR, 1);
+        rTemp.writeLong(start.getTimeInMillis());
+        //title
+        rTemp.writeUTF(title);
+        rTemp.close();
     }
     
     /**
@@ -212,7 +260,16 @@ public class SoccerWay {
      * @return TRUE si se pudo despedir o no.
      * PARTE VISUAL: Llamar esta opcion desde el submenu "Jugadores->Dar de Baja"
      */
-    public boolean retirePlayer(int cod){
+    public boolean retirePlayer(int cod)throws IOException{
+        if(search(cod)){
+            rPlayers.readUTF();//nombre
+            rPlayers.readLong();//fecha
+            rPlayers.readUTF();//posicion
+            rPlayers.readUTF();//pais
+            rPlayers.skipBytes(12);//camisa y salario
+            rPlayers.writeBoolean(false);
+            return true;
+        }
         return false;
     }
     
@@ -235,8 +292,37 @@ public class SoccerWay {
      * @param endDate Fecha Final
      * @return la suma de las acciones estadisticas conseguidas.
      */
-    public int actionQuantity(int cod, TipoAccion action, String startDate, String endDate){
-        return 0;
+    public int actionQuantity(int cod, TipoAccion action, String startDate, String endDate) throws IOException{
+        int suma =0;
+        
+        if(search(cod)){
+            RandomAccessFile rStats = new RandomAccessFile(ROOT+"/estadistica_"+cod+".fut", "rw");
+            rStats.seek(0);
+            
+            Calendar start = buildCalendarFromString(startDate);
+            Calendar end = buildCalendarFromString(endDate);
+            
+            while(rStats.getFilePointer() < rStats.length()){
+                //fecha
+                Calendar fecha = Calendar.getInstance();
+                fecha.setTimeInMillis(rStats.readLong());
+                //tipo
+                TipoAccion caction = TipoAccion.valueOf(rStats.readUTF());
+                //cantidad
+                int cant = rStats.readInt();
+                //desc
+                rStats.readUTF();
+
+                if(caction == action){
+                    if( fecha.after(start) && fecha.before(end)){
+                        suma += cant;
+                    }
+                }
+            }
+            
+            rStats.close();
+        }
+        return suma;
     }
     
     
@@ -245,8 +331,22 @@ public class SoccerWay {
      * Esta funcion se usa en la funcion de abajo: toTable()
      * @return la cantidad disponible
      */
-    private int totalAvailables(){
-        return 2;
+    private int totalAvailables() throws IOException{
+        rPlayers.seek(0);
+        int total = 0;
+        
+        while(rPlayers.getFilePointer() < rPlayers.length()){
+            rPlayers.readInt();//cod
+            rPlayers.readUTF();//nombre
+            rPlayers.readLong();//fecha
+            rPlayers.readUTF();//posicion
+            rPlayers.readUTF();//pais
+            rPlayers.skipBytes(12);//camisa y salario
+            if(rPlayers.readBoolean())
+                total++;
+        }
+        
+        return total;
     }
     
         /**
@@ -257,8 +357,25 @@ public class SoccerWay {
      * resultante en la consola.
      * @return El texto formado.
      */
-    public String expensivePlayer(){
-        return "1-10-Lionel Messi - $5000";
+    public String expensivePlayer() throws IOException{
+        String datoMayor="";
+        double salMayor = 0;
+        rPlayers.seek(0);
+        while(rPlayers.getFilePointer() < rPlayers.length()){
+            int cod = rPlayers.readInt();//cod
+            String name = rPlayers.readUTF();//nombre
+            rPlayers.readLong();//fecha
+            rPlayers.readUTF();//posicion
+            rPlayers.readUTF();//pais
+            int nc = rPlayers.readInt();//camisa
+            double sal = rPlayers.readDouble(); //salario
+            //si esta disponible y el salario es > el mayor
+            if(rPlayers.readBoolean() && sal > salMayor){
+                salMayor = sal;
+                datoMayor = cod+"-"+nc+"-"+name+"- $"+sal;
+            }
+        }
+        return datoMayor;
     }
     
      //Para el listado de jugadores (VER FORMA YA AGREGADA al llamar "Jugadores->Listado"
@@ -304,6 +421,24 @@ public class SoccerWay {
         }
         
         return table;
+    }
+    
+    public Object[] toArray() throws IOException{
+        ArrayList list = new ArrayList();
+        rPlayers.seek(0);
+        
+        while(rPlayers.getFilePointer() < rPlayers.length()){
+            int cod = rPlayers.readInt();//cod
+            String name = rPlayers.readUTF();//nombre
+            rPlayers.readLong();//fecha
+            rPlayers.readUTF();//posicion
+            rPlayers.readUTF();//pais
+            rPlayers.skipBytes(12);//camisa-salario
+            
+            if(rPlayers.readBoolean())
+                list.add(cod+"-"+name);
+        }
+        return list.toArray();
     }
     
 }
