@@ -15,6 +15,7 @@ int cod
 
 estadistica_codigo.fut
 ----------------------
+long fecha
 String tipo
 int cantidad
 String descripcion

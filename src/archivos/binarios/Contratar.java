@@ -62,6 +62,11 @@ public class Contratar extends javax.swing.JFrame {
         });
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,13 +133,20 @@ public class Contratar extends javax.swing.JFrame {
             String pais = txtPais.getText();
             int nc = Integer.parseInt(txtCamisa.getText());
             
-            if( MenuSoccer.manager.addPlayer(n, p,pais,nc) )
+            if( MenuSoccer.manager.addPlayer(n, p,pais,nc) ){
                 JOptionPane.showMessageDialog(this,"Salvado Bien","Exito",JOptionPane.INFORMATION_MESSAGE);
+                dispose();
+            }
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(this,e,"Error",JOptionPane.ERROR_MESSAGE);
         }           
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
