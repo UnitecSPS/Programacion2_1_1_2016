@@ -441,4 +441,68 @@ public class SoccerWay {
         return list.toArray();
     }
     
+    /**
+     * PRUEBA 5:
+     * Imprime en consola TODAS las estadisticas de un
+     * jugador existente de la actual temporada.
+     * NOTA: Se imprime asi:
+     *  Jugador: Nombre
+     *  - Fecha - Tipo Accion - Cantidad - Descripcion
+     * NOTA: La current season es aquella cuya fecha actual (hoy)
+     *  esta entre la fecha de inicio y fin.
+     * NOTA:
+     *      - Puede usar la funcion search(int cod).
+     * @param cod 
+     */
+    public void printSeasonData(int cod)throws IOException{
+        RandomAccessFile rSeasons = new RandomAccessFile(ROOT+"/temporada.fut","r");
+        if(search(cod)){
+            Calendar start=Calendar.getInstance();
+            Calendar end=Calendar.getInstance();
+            Calendar today=Calendar.getInstance();
+            boolean season = false;
+            //busquemos la season actual
+            while(rSeasons.getFilePointer() < rSeasons.length()){
+                start.setTimeInMillis(rSeasons.readLong());
+                end.setTimeInMillis(rSeasons.readLong());
+                rSeasons.readUTF();
+                if(start.before(today) && end.after(today)){
+                    season = true;
+                    break;
+                }
+            }
+            //imprimir
+            if(season){
+                //imprimir nombre
+                System.out.println("Jugador: "+rPlayers.readUTF());
+                
+                RandomAccessFile rSts = new RandomAccessFile(ROOT+"/estadisticas_"+cod+".fut", "r");
+                while(rSts.getFilePointer() < rSts.length()){
+                    long fecha = rSts.readLong();
+                    String accion = rSts.readUTF();
+                    int cant = rSts.readInt();
+                    String desc = rSts.readUTF();
+                    if(start.getTimeInMillis()<= fecha && 
+                            end.getTimeInMillis() >= fecha){
+                        System.out.println("-"+new Date(fecha)+" - "+accion+
+                                "-"+cant+" - "+desc);
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * TAREA:
+     *  Generar un reporte en un archivo de texto cuya direccion
+     *  viene de parametro con la informacion de todos los jugadores
+     *  que estan disponibles.
+     *      Formato a escribir en el archivo por registro:
+     *          Numero camisa - Nombre - Posicion
+     * @param filepath 
+     */
+    public void exportAvailablePlayers(String filepath){
+        
+    }
+    
 }
