@@ -73,7 +73,13 @@ public class MiArrayList {
      * @return La cantidad
      */
     public int size(){
-        return 0;
+        int cont = 0;
+        Nodo mochilero = inicio;
+        while(mochilero != null){
+            cont++;
+            mochilero = mochilero.next;
+        }
+        return cont;
     }
     
     /**
@@ -85,7 +91,54 @@ public class MiArrayList {
      * del rango o es negativo.
      */
     public void add(int index,Nodo obj){
+        if(index < 0 || index > size())
+            throw new IndexOutOfBoundsException(index+" invalid");
         
+        if(index == 0){
+            obj.next = inicio;
+            inicio = obj;
+        }
+        else{
+            Nodo tmp = inicio;
+            for(int c=1;c < index;c++)
+                tmp = tmp.next;
+            obj.next = tmp.next;
+            tmp.next = obj;
+        }
     }
     
+    /**
+     * PRUEBA REDENTORA:
+     * Busca un nodo dentro de la lista cuyo nombre es igual
+     * al que se recibe de parametro. Si lo encuentra retorna
+     * la posicion de ese nodo, comenzando desde 0. Sino, se
+     * retorna -1.
+     * @param name Nombre a buscar dentro de los nodos
+     * @return La posicion si lo encuentra, -1 si no.
+     */
+    public int indexOf(String name){
+        int pos=0;
+        Nodo tmp = inicio;
+        while(tmp != null){
+            if(tmp.name.equals(name))
+                return pos;
+            pos++;
+            tmp = tmp.next;
+        }
+        return -1;
+    }
+    
+    public boolean contains(String name){
+        return indexOf(name)>=0;
+    }
+    
+    /**
+     * Retorna el objeto nodo en esa posicion 
+     * @param pos Posicion a buscar
+     * @return El objeto nodo si lo encuentra
+     * @throws IndexOutOfBoundException si el index es incorrecto
+     */
+    public Nodo get(int pos){
+        return null;
+    }
 }

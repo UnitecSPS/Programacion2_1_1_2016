@@ -22,6 +22,7 @@ public class TestLista {
         lista.add(new Nodo("Maria"));
         lista.add(new Nodo("Manolas"));
         lista.print();
+        System.out.println("Size: "+lista.size());
         //borrar--------------------------
         lista.remove("Martin");
         lista.remove("Mario");
@@ -29,6 +30,19 @@ public class TestLista {
         lista.remove("Magdalena");
         System.out.println("\nDespues de los removes\n-----------");
         lista.print();
+        System.out.println("Size: "+lista.size());
+        //------add in the middle
+        lista.add(0,new Nodo("Celeste"));
+        lista.add(2,new Nodo("Delia"));
+        lista.add(5,new Nodo("Francis"));
+       // lista.add(7,new Nodo("Darth vader")); TRUENA!
+         System.out.println("\nDespues de los add en medio\n-----------");
+        lista.print();
+        System.out.println("Size: "+lista.size());
+        //----index of
+        System.out.println("Esta Delia?: "+lista.indexOf("Delia"));
+        System.out.println("Esta Maria?: "+lista.contains("Maria"));
+        System.out.println("Esta Messi?: "+lista.indexOf("Messi"));
 
     }
 }
